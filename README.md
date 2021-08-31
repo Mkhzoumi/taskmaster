@@ -12,26 +12,32 @@ version: 1.0.1
 + add a task details page which shows the task title and the descreption.
 + add a setting page which the user can change his username from there.
 
+#### lab28 changelog:
++ add a recycle view to show the tasks dynamically in home page.
+
+
 
 ## here are some screens of the application
-
-
 ### the home page of the application:
-![home](screenshots/home.jpg)
+<img src="screenshots/home.jpg" height="400" alt="Screenshot"/>
 
 
 ### the settings page:
-![setting](screenshots/setting.jpg)
+<img src="screenshots/setting.jpg" height="400" alt="Screenshot"/>
+
 
 
 ### the details page:
-![details](screenshots/details.jpg)
+<img src="screenshots/details.jpg" height="400" alt="Screenshot"/>
+
 
 
 ### the add task page:
-![add-task](screenshots/add-task.jpg)
+<img src="screenshots/add-task.jpg" height="400" alt="Screenshot"/>
+
 
 
 ### the all tasks page:
-![all-task](screenshots/all-tasks.jpg)
+<img src="screenshots/all-tasks.jpg" height="400" alt="Screenshot"/>
+
 
