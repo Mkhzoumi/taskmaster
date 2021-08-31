@@ -1,6 +1,8 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,13 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Button addTask = (Button) findViewById(R.id.addTask);
         addTask.setOnClickListener(new View.OnClickListener() {
@@ -38,41 +42,41 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Button presentation = findViewById(R.id.presentationButton);
-        presentation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String presentationTitle = presentation.getText().toString();
-                Intent goToPresentationDetails = new Intent(MainActivity.this, TaskDetail.class);
-                goToPresentationDetails.putExtra("title",presentationTitle);
-                startActivity(goToPresentationDetails);
-            }
-        });
-
-
-        Button codeChallenge = findViewById(R.id.codeChallengeButton);
-        codeChallenge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String codeChallengeTitle = codeChallenge.getText().toString();
-                Intent goToCodeChallengeDetails = new Intent(MainActivity.this, TaskDetail.class);
-                goToCodeChallengeDetails.putExtra("title",codeChallengeTitle);
-                startActivity(goToCodeChallengeDetails);
-            }
-        });
-
-
-
-        Button solveLab = findViewById(R.id.solveLabButton);
-        solveLab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String labTitle = solveLab.getText().toString();
-                Intent goToLabDetails = new Intent(MainActivity.this, TaskDetail.class);
-                goToLabDetails.putExtra("title",labTitle);
-                startActivity(goToLabDetails);
-            }
-        });
+//        Button presentation = findViewById(R.id.presentationButton);
+//        presentation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String presentationTitle = presentation.getText().toString();
+//                Intent goToPresentationDetails = new Intent(MainActivity.this, TaskDetail.class);
+//                goToPresentationDetails.putExtra("title",presentationTitle);
+//                startActivity(goToPresentationDetails);
+//            }
+//        });
+//
+//
+//        Button codeChallenge = findViewById(R.id.codeChallengeButton);
+//        codeChallenge.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String codeChallengeTitle = codeChallenge.getText().toString();
+//                Intent goToCodeChallengeDetails = new Intent(MainActivity.this, TaskDetail.class);
+//                goToCodeChallengeDetails.putExtra("title",codeChallengeTitle);
+//                startActivity(goToCodeChallengeDetails);
+//            }
+//        });
+//
+//
+//
+//        Button solveLab = findViewById(R.id.solveLabButton);
+//        solveLab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String labTitle = solveLab.getText().toString();
+//                Intent goToLabDetails = new Intent(MainActivity.this, TaskDetail.class);
+//                goToLabDetails.putExtra("title",labTitle);
+//                startActivity(goToLabDetails);
+//            }
+//        });
 
         Button setting = findViewById(R.id.settingsButton);
         setting.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +86,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goToSettings);
             }
         });
+
+
+        List<Task> allTasksData = new ArrayList<>();
+        allTasksData.add(new Task("401-presentation","this is the presentation body","new"));
+        allTasksData.add(new Task("code challenge","this is the code challenge body","new"));
+        allTasksData.add(new Task("solve lab","this is the solve lab body","new"));
+        allTasksData.add(new Task("401-final","this is the final body","new"));
+
+        RecyclerView allTasksRecuclerView = findViewById(R.id.tasksRecucleView);
+        allTasksRecuclerView.setLayoutManager(new LinearLayoutManager(this));
+        allTasksRecuclerView.setAdapter(new TaskAdapter(allTasksData));
+
+
+
+
     }
+ 
 
 
     @Override
