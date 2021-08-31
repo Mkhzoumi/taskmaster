@@ -40,7 +40,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return taskViewHolder;
     }
 
-    //    TaskAdapter.
+
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         holder.task = allTasks.get(position);
@@ -48,7 +48,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Button taskButton = holder.itemView.findViewById(R.id.taskFragmentButton);
 
         taskButton.setText(holder.task.title);
-
 
 
     }

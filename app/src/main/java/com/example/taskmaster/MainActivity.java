@@ -42,31 +42,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        Button presentation = findViewById(R.id.presentationButton);
-//        presentation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String presentationTitle = presentation.getText().toString();
-//                Intent goToPresentationDetails = new Intent(MainActivity.this, TaskDetail.class);
-//                goToPresentationDetails.putExtra("title",presentationTitle);
-//                startActivity(goToPresentationDetails);
-//            }
-//        });
-//
-//
-//        Button codeChallenge = findViewById(R.id.codeChallengeButton);
-//        codeChallenge.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String codeChallengeTitle = codeChallenge.getText().toString();
-//                Intent goToCodeChallengeDetails = new Intent(MainActivity.this, TaskDetail.class);
-//                goToCodeChallengeDetails.putExtra("title",codeChallengeTitle);
-//                startActivity(goToCodeChallengeDetails);
-//            }
-//        });
-//
-//
-//
 //        Button solveLab = findViewById(R.id.solveLabButton);
 //        solveLab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -78,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+
         Button setting = findViewById(R.id.settingsButton);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        
         List<Task> allTasksData = new ArrayList<>();
         allTasksData.add(new Task("401-presentation","this is the presentation body","new"));
         allTasksData.add(new Task("code challenge","this is the code challenge body","new"));
@@ -98,11 +74,8 @@ public class MainActivity extends AppCompatActivity {
         allTasksRecuclerView.setLayoutManager(new LinearLayoutManager(this));
         allTasksRecuclerView.setAdapter(new TaskAdapter(allTasksData));
 
-
-
-
     }
- 
+
 
 
     @Override
