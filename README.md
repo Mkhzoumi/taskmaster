@@ -1,7 +1,7 @@
 # taskmaster
 
 this is an android application which allows the users to manage their tasks. 
-version: 1.0.1
+version: 1.0.2
 
 #### lab26 changelog:
 + create a home page which has a three tasks buttons and settings button and (add task , all tasks) buttons.
@@ -15,6 +15,10 @@ version: 1.0.1
 #### lab28 changelog:
 + add a recycle view to show the tasks dynamically in home page.
 
+#### lab29 changelog:
++ a data base added, the data now is stored in the database.
++ added a click functionality on the tasks on main page to navigate you to task details page.
++ when adding a new task from add task page the task will be stored in the data base.
 
 
 ## here are some screens of the application
@@ -28,7 +32,7 @@ version: 1.0.1
 
 
 ### the details page:
-<img src="screenshots/details.jpg" height="400" alt="Screenshot"/>
+<img src="screenshots/detail.jpg" height="400" alt="Screenshot"/>
 
 
 

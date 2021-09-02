@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,15 +65,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         
-        List<Task> allTasksData = new ArrayList<>();
-        allTasksData.add(new Task("401-presentation","this is the presentation body","new"));
-        allTasksData.add(new Task("code challenge","this is the code challenge body","new"));
-        allTasksData.add(new Task("solve lab","this is the solve lab body","new"));
-        allTasksData.add(new Task("401-final","this is the final body","new"));
+//        List<Task> allTasksData = new ArrayList<>();
+//        allTasksData.add(new Task("401-presentation","this is the presentation body","new"));
+//        allTasksData.add(new Task("code challenge","this is the code challenge body","new"));
+//        allTasksData.add(new Task("solve lab","this is the solve lab body","new"));
+//        allTasksData.add(new Task("401-final","this is the final body","new"));
+
+        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster").allowMainThreadQueries().build();
+        TaskDao userDao = db.taskDao();
+
+
+        List<Task> tasks = userDao.getAll();
 
         RecyclerView allTasksRecuclerView = findViewById(R.id.tasksRecucleView);
         allTasksRecuclerView.setLayoutManager(new LinearLayoutManager(this));
-        allTasksRecuclerView.setAdapter(new TaskAdapter(allTasksData));
+        allTasksRecuclerView.setAdapter(new TaskAdapter(tasks));
 
     }
 

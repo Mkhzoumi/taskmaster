@@ -30,6 +30,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
+
+            itemView.findViewById(R.id.taskFragmentButton).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toDetailsPage = new Intent(v.getContext(),TaskDetail.class);
+                    toDetailsPage.putExtra("id",task.id);
+                    v.getContext().startActivity(toDetailsPage);
+                }
+            });
         }
     }
     @NonNull
