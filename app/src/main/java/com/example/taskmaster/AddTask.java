@@ -27,7 +27,7 @@ public class AddTask extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster").allowMainThreadQueries().build();
+        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
         TaskDao taskDao = db.taskDao();
         Button addTask = findViewById(R.id.add);
         addTask.setOnClickListener(new View.OnClickListener() {

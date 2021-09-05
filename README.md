@@ -20,6 +20,15 @@ version: 1.0.2
 + added a click functionality on the tasks on main page to navigate you to task details page.
 + when adding a new task from add task page the task will be stored in the data base.
 
+#### lab31 changelog:
+
++ added Espresso testing to the application.
++ testing for the buttons on home page of they have the proper naming.
++ testing the add task fuctionality and check if it apears in Main page.
++ testing the setting page changing username functionality and check if it apears on main page.
++ testing the all task page button and the back button inside.
+
+
 
 ## here are some screens of the application
 ### the home page of the application:

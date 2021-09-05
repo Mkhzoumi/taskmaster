@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 //        allTasksData.add(new Task("solve lab","this is the solve lab body","new"));
 //        allTasksData.add(new Task("401-final","this is the final body","new"));
 
-        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster").allowMainThreadQueries().build();
+        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
         TaskDao userDao = db.taskDao();
 
 
