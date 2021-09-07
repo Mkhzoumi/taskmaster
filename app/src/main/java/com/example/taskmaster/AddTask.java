@@ -5,11 +5,16 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Tasks;
 
 import java.util.List;
 
@@ -42,8 +47,26 @@ public class AddTask extends AppCompatActivity {
 
                 taskDao.insertAll(task);
 
+
+
+                Tasks tasks = Tasks.builder()
+                        .title(tasTitle.getText().toString())
+                        .body(desc.getText().toString())
+                        .state(state.getText().toString())
+                        .build();
+
+                Amplify.API.mutate(
+                        ModelMutation.create(tasks),
+                        response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+                        error -> Log.e("MyAmplifyApp", "Create failed", error));
+
+
+
                 Intent toHome = new Intent(AddTask.this,MainActivity.class);
                 startActivity(toHome);
+
+
+
 
             }
         });

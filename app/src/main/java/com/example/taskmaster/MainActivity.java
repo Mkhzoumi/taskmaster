@@ -9,10 +9,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Tasks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+
+
 
         Button addTask = (Button) findViewById(R.id.addTask);
         addTask.setOnClickListener(new View.OnClickListener() {
@@ -64,12 +82,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        
-//        List<Task> allTasksData = new ArrayList<>();
-//        allTasksData.add(new Task("401-presentation","this is the presentation body","new"));
-//        allTasksData.add(new Task("code challenge","this is the code challenge body","new"));
-//        allTasksData.add(new Task("solve lab","this is the solve lab body","new"));
-//        allTasksData.add(new Task("401-final","this is the final body","new"));
+
+
+        Amplify.API.query(
+                ModelQuery.list(Tasks.class),
+                response -> {
+                    for (Tasks task : response.getData()) {
+                        Log.i("MyAmplifyApp", task.getTitle());
+                    }
+                },
+                error -> Log.e("MyAmplifyApp", "Query failure", error)
+        );
+
+
+
 
         AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
         TaskDao userDao = db.taskDao();
