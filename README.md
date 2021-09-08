@@ -1,7 +1,7 @@
 # taskmaster
 
 this is an android application which allows the users to manage their tasks. 
-version: 1.0.2
+version: 1.0.4
 
 #### lab26 changelog:
 + create a home page which has a three tasks buttons and settings button and (add task , all tasks) buttons.
@@ -27,6 +27,12 @@ version: 1.0.2
 + testing the add task fuctionality and check if it apears in Main page.
 + testing the setting page changing username functionality and check if it apears on main page.
 + testing the all task page button and the back button inside.
+
+#### lab32 changelog:
+
++ installed amplify service in the application.
++ change the database from the locally Room database , to the cloud database in the graphQL API.
+
 
 
 

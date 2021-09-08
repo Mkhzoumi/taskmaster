@@ -1,10 +1,14 @@
 package com.example.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Tasks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddTask extends AppCompatActivity {
@@ -32,8 +39,8 @@ public class AddTask extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
-        TaskDao taskDao = db.taskDao();
+//        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
+//        TaskDao taskDao = db.taskDao();
         Button addTask = findViewById(R.id.add);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,13 +50,13 @@ public class AddTask extends AppCompatActivity {
                 EditText desc = findViewById(R.id.descreption);
                 EditText state = findViewById(R.id.stateOfTaskField);
 
-                Task task = new Task(tasTitle.getText().toString(),desc.getText().toString(),state.getText().toString());
+//                Task task = new Task(tasTitle.getText().toString(),desc.getText().toString(),state.getText().toString());
+//
+//                taskDao.insertAll(task);
 
-                taskDao.insertAll(task);
 
 
-
-                Tasks tasks = Tasks.builder()
+                TaskMaster tasks = TaskMaster.builder()
                         .title(tasTitle.getText().toString())
                         .body(desc.getText().toString())
                         .state(state.getText().toString())
@@ -65,15 +72,18 @@ public class AddTask extends AppCompatActivity {
                 Intent toHome = new Intent(AddTask.this,MainActivity.class);
                 startActivity(toHome);
 
-
-
-
             }
         });
 
-        int countNumber = taskDao.getAll().size();
+
+
+
 
         TextView count = findViewById(R.id.textView2);
-        count.setText("Total Tasks : "+countNumber);
+        count.setText("Total Tasks : ");
     }
+
+
+
+
 }

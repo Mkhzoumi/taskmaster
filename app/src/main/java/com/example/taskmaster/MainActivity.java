@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,9 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.*;
@@ -19,6 +23,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Tasks;
 
 import java.util.ArrayList;
@@ -61,18 +66,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        Button solveLab = findViewById(R.id.solveLabButton);
-//        solveLab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String labTitle = solveLab.getText().toString();
-//                Intent goToLabDetails = new Intent(MainActivity.this, TaskDetail.class);
-//                goToLabDetails.putExtra("title",labTitle);
-//                startActivity(goToLabDetails);
-//            }
-//        });
-
-
         Button setting = findViewById(R.id.settingsButton);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +77,42 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+        RecyclerView allTasksRecuclerView = findViewById(R.id.tasksRecucleView);
+        List<TaskMaster> tasks = new ArrayList<>();
+
+
+        Handler handler =new Handler(Looper.getMainLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message msg) {
+                allTasksRecuclerView.getAdapter().notifyDataSetChanged();
+                return false;
+            }
+        });
+
+
+
+        allTasksRecuclerView.setLayoutManager(new LinearLayoutManager(this));
+        allTasksRecuclerView.setAdapter(new TaskAdapter(tasks));
+
+
+
         Amplify.API.query(
-                ModelQuery.list(Tasks.class),
+                ModelQuery.list(TaskMaster.class),
                 response -> {
-                    for (Tasks task : response.getData()) {
-                        Log.i("MyAmplifyApp", task.getTitle());
+                    ///looping through data to render it
+                    for (TaskMaster taskMaster : response.getData()) {
+                        Log.i("MyAmplifyApp", taskMaster.getTitle());
+                        Log.i("MyAmplifyApp", taskMaster.getBody());
+                        Log.i("MyAmplifyApp", taskMaster.getState());
+                        ///add new data to array
+                        tasks.add(taskMaster);
+
                     }
+
+                    handler.sendEmptyMessage(1);
+                    Log.i("MyAmplifyApp", "outsoid the loop");
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
@@ -97,15 +120,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
-        TaskDao userDao = db.taskDao();
 
 
-        List<Task> tasks = userDao.getAll();
 
-        RecyclerView allTasksRecuclerView = findViewById(R.id.tasksRecucleView);
-        allTasksRecuclerView.setLayoutManager(new LinearLayoutManager(this));
-        allTasksRecuclerView.setAdapter(new TaskAdapter(tasks));
+
+
+
+//                AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
+//        TaskDao userDao = db.taskDao();
+//
+//
+//        List<Task> tasks = userDao.getAll();
+
 
     }
 

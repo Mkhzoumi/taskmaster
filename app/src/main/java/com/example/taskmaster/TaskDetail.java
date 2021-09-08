@@ -16,20 +16,20 @@ public class TaskDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
-        TaskDao userDao = db.taskDao();
+//        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
+//        TaskDao userDao = db.taskDao();
 
         Intent intent = getIntent();
-
-        Task task = userDao.findById(intent.getExtras().getInt("id"));
+//
+//        Task task = userDao.findById(intent.getExtras().getInt("id"));
 
 
         TextView titleText = findViewById(R.id.detailPageTitle);
         TextView state = findViewById(R.id.textView11);
         TextView desc = findViewById(R.id.textView8);
 
-        titleText.setText(task.title);
-        state.setText(task.state);
-        desc.setText(task.body);
+        titleText.setText(intent.getExtras().getString("title"));
+        state.setText(intent.getExtras().getString("body"));
+        desc.setText(intent.getExtras().getString("state"));
     }
 }
