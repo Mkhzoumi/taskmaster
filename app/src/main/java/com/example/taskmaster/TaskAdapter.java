@@ -9,21 +9,24 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.TaskMaster;
+import com.amplifyframework.datastore.generated.model.Tasks;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder>{
-    List<Task> allTasks = new ArrayList<>();
+    List<TaskMaster> allTasks = new ArrayList<>();
 
 
-    public TaskAdapter(List<Task> allTasks){
+    public TaskAdapter(List<TaskMaster> allTasks){
         this.allTasks = allTasks;
     }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder{
 
         View itemView;
-        public Task task;
+        public TaskMaster task;
 
 
 
@@ -35,7 +38,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 @Override
                 public void onClick(View v) {
                     Intent toDetailsPage = new Intent(v.getContext(),TaskDetail.class);
-                    toDetailsPage.putExtra("id",task.id);
+                    toDetailsPage.putExtra("title",task.getTitle());
+                    toDetailsPage.putExtra("body",task.getBody());
+                    toDetailsPage.putExtra("state",task.getState());
                     v.getContext().startActivity(toDetailsPage);
                 }
             });
@@ -56,7 +61,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         Button taskButton = holder.itemView.findViewById(R.id.taskFragmentButton);
 
-        taskButton.setText(holder.task.title);
+        taskButton.setText(holder.task.getTitle());
 
 
     }
