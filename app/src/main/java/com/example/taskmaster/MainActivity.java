@@ -21,10 +21,11 @@ import android.widget.Toast;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
-import com.amplifyframework.datastore.generated.model.Tasks;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,10 +77,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String team = sharedPreferences.getString("team", "team");
 
 
 
         RecyclerView allTasksRecuclerView = findViewById(R.id.tasksRecucleView);
+        List<Team> teams = new ArrayList<>();
         List<TaskMaster> tasks = new ArrayList<>();
 
 
@@ -93,29 +97,46 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
         allTasksRecuclerView.setLayoutManager(new LinearLayoutManager(this));
         allTasksRecuclerView.setAdapter(new TaskAdapter(tasks));
 
 
 
         Amplify.API.query(
-                ModelQuery.list(TaskMaster.class),
+                ModelQuery.list(Team.class),
                 response -> {
-                    ///looping through data to render it
-                    for (TaskMaster taskMaster : response.getData()) {
-                        Log.i("MyAmplifyApp", taskMaster.getTitle());
-                        Log.i("MyAmplifyApp", taskMaster.getBody());
-                        Log.i("MyAmplifyApp", taskMaster.getState());
-                        ///add new data to array
-                        tasks.add(taskMaster);
+                    for (Team teamo : response.getData()) {
+                        Log.i("MyAmplifyApp", teamo.getName());
+                        Log.i("MyAmplifyApp", teamo.getId());
 
+                        ///add new data to array
+                        teams.add(teamo);
+                    }
+                    for (int i = 0; i < teams.size(); i++) {
+                        if (teams.get(i).getName().equals(team)){
+                            tasks.addAll(teams.get(i).getTasks());
+                            break;
+                        }
                     }
 
                     handler.sendEmptyMessage(1);
-                    Log.i("MyAmplifyApp", "outsoid the loop");
+                    Log.i("MyAmplifyApp", "outside the loop");
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
+
+
+
+
+
+        // mkhzoumi    f7441181-f7a9-42f0-96e0-830c77066f0a
+        // ASAC        2a61bec2-e32e-4a11-810e-da6da8b82ffc
+        // dev team    e8d207d2-32aa-479a-9414-49a25ee268f2
+
 
 
 
@@ -144,8 +165,14 @@ public class MainActivity extends AppCompatActivity {
         String tasks = "'s Tasks";
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String username = sharedPreferences.getString("username", "user");
+        String team = sharedPreferences.getString("team", "team");
+
 
         TextView usernameField = findViewById(R.id.textView3);
         usernameField.setText(username + tasks);
+
+        TextView teamName = findViewById(R.id.teamNameHome);
+        teamName.setText(team);
+
     }
 }
