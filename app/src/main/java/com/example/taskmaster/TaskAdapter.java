@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.datastore.generated.model.TaskMaster;
-import com.amplifyframework.datastore.generated.model.Tasks;
+
 
 import java.util.ArrayList;
 import java.util.List;
