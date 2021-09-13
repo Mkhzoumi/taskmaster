@@ -19,10 +19,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Team;
@@ -30,7 +35,17 @@ import com.amplifyframework.datastore.generated.model.Team;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.amazonaws.mobile.client.internal.oauth2.OAuth2Client.TAG;
+
 public class MainActivity extends AppCompatActivity {
+
+    public void login(){
+        Amplify.Auth.signInWithWebUI(
+                this,
+                result -> Log.i("AuthQuickStart", result.toString()),
+                error -> Log.e("AuthQuickStart", error.toString())
+        );
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +55,30 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+
+        login();
+
+
+
+        Button logoutButton =  findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        Amplify.Auth.signOut(
+                () -> {
+                    login();
+                    Log.i("AuthQuickstart", "Signed out successfully");
+                },
+                error -> Log.e("AuthQuickstart", error.toString())
+        );
+            }
+        });
 
 
 
@@ -162,14 +196,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        String tasks = "'s Tasks";
+
+
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String username = sharedPreferences.getString("username", "user");
+//        String username = sharedPreferences.getString("username", "user");
         String team = sharedPreferences.getString("team", "team");
+
+//        Amplify.Auth.fetchUserAttributes(
+//
+//                attributes -> Log.i("AuthDemo", "User attributes = " +attributes.toString() ),
+//                error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
+//        );
+
+
 
 
         TextView usernameField = findViewById(R.id.textView3);
-        usernameField.setText(username + tasks);
+        usernameField.setText(com.amazonaws.mobile.client.AWSMobileClient.getInstance().getUsername() + "'s Tasks");
 
         TextView teamName = findViewById(R.id.teamNameHome);
         teamName.setText(team);
