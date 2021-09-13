@@ -42,6 +42,15 @@ version: 1.0.6
 + the tasks in home page are the tasks belongs to the team choosen in the setting page.
 
 
+#### lab36 changelog:
+
++ added cognito services to the application.
++ added a login and signup functionality.
++ when a user signed in , the username of him will be displayed in the home page.
++ added a signout button which sign the user out and calls the login functionality again.
+
+
+
 
 ## here are some screens of the application
 ### the home page of the application:
