@@ -60,4 +60,7 @@ dependencies {
 
     implementation 'com.amplifyframework:aws-auth-cognito:1.24.0'
 
+    //for s3
+    implementation 'com.amplifyframework:aws-storage-s3:1.24.0'
+
 }

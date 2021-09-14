@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,10 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.Path;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,6 +21,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +37,11 @@ import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
     public void login(){
         Amplify.Auth.signInWithWebUI(
                 MainActivity.this,
-                result -> Log.i("AuthQuickStart", result.toString()),
+                result -> {
+                    Log.i("AuthQuickStart", result.toString());},
                 error -> Log.e("AuthQuickStart", error.toString())
         );
     }
@@ -71,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -178,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         // mkhzoumi    f7441181-f7a9-42f0-96e0-830c77066f0a
         // ASAC        2a61bec2-e32e-4a11-810e-da6da8b82ffc
         // dev team    e8d207d2-32aa-479a-9414-49a25ee268f2
@@ -199,6 +212,11 @@ public class MainActivity extends AppCompatActivity {
 //        List<Task> tasks = userDao.getAll();
 
 
+
+
+
+
+
     }
 
 
@@ -211,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String team = sharedPreferences.getString("team", "team");
-        
+
 
         TextView usernameField = findViewById(R.id.textView3);
         usernameField.setText(username + "'s Tasks");
