@@ -47,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public void checkLoginStatus(){
+        Amplify.Auth.fetchAuthSession(
+                result -> {
+                    if (!result.isSignedIn()){
+                        login();
+                    }
+                    Log.i("AmplifyQuickstart", String.valueOf(result.isSignedIn()));},
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
 
-        login();
+
+
+//        login();
 
 
 
@@ -196,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        checkLoginStatus();
 
 
 
