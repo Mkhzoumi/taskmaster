@@ -4,9 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amplifyframework.core.Amplify;
+
+import java.io.File;
 import java.util.List;
 
 public class TaskDetail extends AppCompatActivity {
@@ -31,5 +37,18 @@ public class TaskDetail extends AppCompatActivity {
         titleText.setText(intent.getExtras().getString("title"));
         state.setText(intent.getExtras().getString("body"));
         desc.setText(intent.getExtras().getString("state"));
+
+
+        Amplify.Storage.downloadFile(
+                intent.getExtras().getString("imgName"),
+                new File(getApplicationContext().getFilesDir() + "/download.jpg"),
+                result -> {
+                    ImageView imageView = findViewById(R.id.imageView);
+                    String newImg = result.getFile().getPath();
+                    imageView.setImageBitmap(BitmapFactory.decodeFile(newImg));
+
+                    Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile());},
+                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+        );
     }
 }

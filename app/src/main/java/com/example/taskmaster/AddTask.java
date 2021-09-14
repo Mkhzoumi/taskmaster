@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 import android.content.Intent;
@@ -22,6 +23,8 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Team;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,9 @@ public class AddTask extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
     }
+
+
+    String imgName="";
 
     @Override
     protected void onStart() {
@@ -52,13 +58,25 @@ public class AddTask extends AppCompatActivity {
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
 
+
+
+        Button uploadImg = findViewById(R.id.uploadImg);
+        uploadImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileChoose();
+            }
+        });
+
 //        AppDatabase db =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskMaster000").allowMainThreadQueries().build();
 //        TaskDao taskDao = db.taskDao();
         Button addTask = findViewById(R.id.add);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Submitted!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Submitted!", Toast.LENGTH_LONG).show();
+
+
                 EditText tasTitle = findViewById(R.id.taskTitle);
                 EditText desc = findViewById(R.id.descreption);
                 EditText state = findViewById(R.id.stateOfTaskField);
@@ -94,12 +112,11 @@ public class AddTask extends AppCompatActivity {
 
 
 
-
-
                 TaskMaster task = TaskMaster.builder()
                         .title(tasTitle.getText().toString())
                         .body(desc.getText().toString())
                         .state(state.getText().toString())
+                        .imgName(imgName)
                         .team(team)
                         .build();
 
@@ -126,6 +143,37 @@ public class AddTask extends AppCompatActivity {
     }
 
 
+    public void fileChoose(){
+        Intent fileChoose=new Intent(Intent.ACTION_GET_CONTENT);
+        fileChoose.setType("*/*");
+        fileChoose=Intent.createChooser(fileChoose,"choose file");
+        startActivityForResult(fileChoose,1111);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        try {
+            InputStream exampleInputStream = getContentResolver().openInputStream(data.getData());
+            System.out.println("hhhhhhhh"+data.getData().toString());
+
+            imgName = data.getData().toString();
+
+
+            Amplify.Storage.uploadInputStream(
+                    data.getData().toString(),
+                    exampleInputStream,
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+            );
+        }  catch (FileNotFoundException error) {
+            Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+        }
+    }
 
 
 }
+
