@@ -50,6 +50,12 @@ version: 1.0.6
 + added a signout button which sign the user out and calls the login functionality again.
 
 
+#### lab37 changelog:
+
++ added s3 storage to the application.
++ added upload image functionality.
++ when navigating to task details page it will show the task image there.
+
 
 
 ## here are some screens of the application
