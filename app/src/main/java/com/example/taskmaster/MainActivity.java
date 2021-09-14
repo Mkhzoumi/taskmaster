@@ -148,10 +148,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
         allTasksRecuclerView.setLayoutManager(new LinearLayoutManager(this));
         allTasksRecuclerView.setAdapter(new TaskAdapter(tasks));
 
@@ -179,8 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
-
-
 
 
 
@@ -215,21 +209,10 @@ public class MainActivity extends AppCompatActivity {
 
         String username = checkLoginStatus();
 
-
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-//        String username = sharedPreferences.getString("username", "user");
         String team = sharedPreferences.getString("team", "team");
+        
 
-//        Amplify.Auth.fetchUserAttributes(
-//
-//                attributes -> Log.i("AuthDemo", "User attributes = " +attributes.toString() ),
-//                error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
-//        );
-
-
-
-//
         TextView usernameField = findViewById(R.id.textView3);
         usernameField.setText(username + "'s Tasks");
 
