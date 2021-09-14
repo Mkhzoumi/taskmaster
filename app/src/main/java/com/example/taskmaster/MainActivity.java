@@ -41,21 +41,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void login(){
         Amplify.Auth.signInWithWebUI(
-                this,
+                MainActivity.this,
                 result -> Log.i("AuthQuickStart", result.toString()),
                 error -> Log.e("AuthQuickStart", error.toString())
         );
     }
 
-    public void checkLoginStatus(){
+    public String checkLoginStatus(){
+        String username="";
         Amplify.Auth.fetchAuthSession(
                 result -> {
+                    Log.i("AmplifyQuickstart", String.valueOf(result.isSignedIn()));
                     if (!result.isSignedIn()){
                         login();
                     }
-                    Log.i("AmplifyQuickstart", String.valueOf(result.isSignedIn()));},
+                        },
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
+        username = com.amazonaws.mobile.client.AWSMobileClient.getInstance().getUsername();
+        return username;
     }
 
     @Override
@@ -209,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        checkLoginStatus();
+        String username = checkLoginStatus();
 
 
 
@@ -225,9 +229,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+//
         TextView usernameField = findViewById(R.id.textView3);
-        usernameField.setText(com.amazonaws.mobile.client.AWSMobileClient.getInstance().getUsername() + "'s Tasks");
+        usernameField.setText(username + "'s Tasks");
 
         TextView teamName = findViewById(R.id.teamNameHome);
         teamName.setText(team);
