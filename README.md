@@ -57,6 +57,11 @@ version: 1.0.6
 + when navigating to task details page it will show the task image there.
 
 
+#### lab38 changelog:
+
++ added a notification functionality.
+
+
 
 ## here are some screens of the application
 ### the home page of the application:

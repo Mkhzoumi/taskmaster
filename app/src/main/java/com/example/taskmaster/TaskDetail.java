@@ -35,8 +35,8 @@ public class TaskDetail extends AppCompatActivity {
         TextView desc = findViewById(R.id.textView8);
 
         titleText.setText(intent.getExtras().getString("title"));
-        state.setText(intent.getExtras().getString("body"));
-        desc.setText(intent.getExtras().getString("state"));
+        state.setText(intent.getExtras().getString("state"));
+        desc.setText(intent.getExtras().getString("body"));
 
 
         Amplify.Storage.downloadFile(
