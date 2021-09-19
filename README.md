@@ -61,6 +61,10 @@ version: 1.0.6
 
 + added a notification functionality.
 
+#### lab41 changelog:
+
++ adding the ability to make new task from another applications by using the share text.
+
 
 
 ## here are some screens of the application
