@@ -65,10 +65,18 @@ version: 1.0.6
 
 + adding the ability to make new task from another applications by using the share text.
 
+#### lab42 changelog:
+
++ adding the google location services to the application.
++ modify the schema of the task to include the longtitude and the latitude information.
++ modify the task details activity to show the longtitude and the latitude of the task creator.
+
 
 
 ## here are some screens of the application
+
 ### the home page of the application:
+
 <img src="screenshots/home.jpg" height="400" alt="Screenshot"/>
 
 

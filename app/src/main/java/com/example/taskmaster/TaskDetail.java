@@ -33,10 +33,14 @@ public class TaskDetail extends AppCompatActivity {
         TextView titleText = findViewById(R.id.detailPageTitle);
         TextView state = findViewById(R.id.textView11);
         TextView desc = findViewById(R.id.textView8);
+        TextView longAndLat = findViewById(R.id.textView15);
 
         titleText.setText(intent.getExtras().getString("title"));
         state.setText(intent.getExtras().getString("state"));
         desc.setText(intent.getExtras().getString("body"));
+        longAndLat.setText("longtitude= "+intent.getExtras().getString("lon") +"\n" + " latitude= "+intent.getExtras().getString("lat"));
+
+
 
 
         Amplify.Storage.downloadFile(
