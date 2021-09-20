@@ -27,12 +27,16 @@ public final class TaskMaster implements Model {
   public static final QueryField BODY = field("TaskMaster", "body");
   public static final QueryField STATE = field("TaskMaster", "state");
   public static final QueryField IMG_NAME = field("TaskMaster", "imgName");
+  public static final QueryField LON = field("TaskMaster", "lon");
+  public static final QueryField LAT = field("TaskMaster", "lat");
   public static final QueryField TEAM = field("TaskMaster", "teamID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String body;
   private final @ModelField(targetType="String") String state;
   private final @ModelField(targetType="String") String imgName;
+  private final @ModelField(targetType="String") String lon;
+  private final @ModelField(targetType="String") String lat;
   private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamID", type = Team.class) Team team;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -56,6 +60,14 @@ public final class TaskMaster implements Model {
       return imgName;
   }
   
+  public String getLon() {
+      return lon;
+  }
+  
+  public String getLat() {
+      return lat;
+  }
+  
   public Team getTeam() {
       return team;
   }
@@ -68,12 +80,14 @@ public final class TaskMaster implements Model {
       return updatedAt;
   }
   
-  private TaskMaster(String id, String title, String body, String state, String imgName, Team team) {
+  private TaskMaster(String id, String title, String body, String state, String imgName, String lon, String lat, Team team) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.state = state;
     this.imgName = imgName;
+    this.lon = lon;
+    this.lat = lat;
     this.team = team;
   }
   
@@ -90,6 +104,8 @@ public final class TaskMaster implements Model {
               ObjectsCompat.equals(getBody(), taskMaster.getBody()) &&
               ObjectsCompat.equals(getState(), taskMaster.getState()) &&
               ObjectsCompat.equals(getImgName(), taskMaster.getImgName()) &&
+              ObjectsCompat.equals(getLon(), taskMaster.getLon()) &&
+              ObjectsCompat.equals(getLat(), taskMaster.getLat()) &&
               ObjectsCompat.equals(getTeam(), taskMaster.getTeam()) &&
               ObjectsCompat.equals(getCreatedAt(), taskMaster.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), taskMaster.getUpdatedAt());
@@ -104,6 +120,8 @@ public final class TaskMaster implements Model {
       .append(getBody())
       .append(getState())
       .append(getImgName())
+      .append(getLon())
+      .append(getLat())
       .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -120,6 +138,8 @@ public final class TaskMaster implements Model {
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
       .append("imgName=" + String.valueOf(getImgName()) + ", ")
+      .append("lon=" + String.valueOf(getLon()) + ", ")
+      .append("lat=" + String.valueOf(getLat()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -156,6 +176,8 @@ public final class TaskMaster implements Model {
       null,
       null,
       null,
+      null,
+      null,
       null
     );
   }
@@ -166,6 +188,8 @@ public final class TaskMaster implements Model {
       body,
       state,
       imgName,
+      lon,
+      lat,
       team);
   }
   public interface TitleStep {
@@ -179,6 +203,8 @@ public final class TaskMaster implements Model {
     BuildStep body(String body);
     BuildStep state(String state);
     BuildStep imgName(String imgName);
+    BuildStep lon(String lon);
+    BuildStep lat(String lat);
     BuildStep team(Team team);
   }
   
@@ -189,6 +215,8 @@ public final class TaskMaster implements Model {
     private String body;
     private String state;
     private String imgName;
+    private String lon;
+    private String lat;
     private Team team;
     @Override
      public TaskMaster build() {
@@ -200,6 +228,8 @@ public final class TaskMaster implements Model {
           body,
           state,
           imgName,
+          lon,
+          lat,
           team);
     }
     
@@ -229,6 +259,18 @@ public final class TaskMaster implements Model {
     }
     
     @Override
+     public BuildStep lon(String lon) {
+        this.lon = lon;
+        return this;
+    }
+    
+    @Override
+     public BuildStep lat(String lat) {
+        this.lat = lat;
+        return this;
+    }
+    
+    @Override
      public BuildStep team(Team team) {
         this.team = team;
         return this;
@@ -246,12 +288,14 @@ public final class TaskMaster implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, String state, String imgName, Team team) {
+    private CopyOfBuilder(String id, String title, String body, String state, String imgName, String lon, String lat, Team team) {
       super.id(id);
       super.title(title)
         .body(body)
         .state(state)
         .imgName(imgName)
+        .lon(lon)
+        .lat(lat)
         .team(team);
     }
     
@@ -273,6 +317,16 @@ public final class TaskMaster implements Model {
     @Override
      public CopyOfBuilder imgName(String imgName) {
       return (CopyOfBuilder) super.imgName(imgName);
+    }
+    
+    @Override
+     public CopyOfBuilder lon(String lon) {
+      return (CopyOfBuilder) super.lon(lon);
+    }
+    
+    @Override
+     public CopyOfBuilder lat(String lat) {
+      return (CopyOfBuilder) super.lat(lat);
     }
     
     @Override
